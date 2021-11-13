@@ -1,0 +1,40 @@
+﻿Classic High Score (int)
+1519
+Two Player High Score (int)
+1000
+Mute Music (bool)
+0
+Mute Sfx (bool)
+0
+God Mode (bool)
+0
+Fullscreen (bool)
+1
+Allow Internet (bool)
+0
+Custom Mode BoardX (int)
+12
+Custom Mode BoardY (int)
+7
+Use New Controls (bool)
+1
+Admin (bool)(0 for player1 (arrow keys))
+0
+Mode (0-4)
+1
+Normal High Score (int)
+1959
+Halloween Event High Score (int)
+1
+Custom Mode Tick (int)
+60
+Secret Code:
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Expert High Score (int)
+1074
+Custom Mode Block Number (int)
+1
+Music Selector:
+0
+Enable Checkpoints:
+1

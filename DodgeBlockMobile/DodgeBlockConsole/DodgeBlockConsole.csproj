@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <StartupObject>ConsoleGame.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\DodgeBlockFormsPort\Animations.cs" Link="Animations.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\Bench.cs" Link="Bench.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\Cryptogo.cs" Link="Cryptogo.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\CustomModeC.cs" Link="CustomModeC.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\DodgeBlock.cs" Link="DodgeBlock.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\BackDrop.cs" Link="GameObjects\BackDrop.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\Blaster.cs" Link="GameObjects\Blaster.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\Block.cs" Link="GameObjects\Block.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\BonusPoints.cs" Link="GameObjects\BonusPoints.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\FallingObject.cs" Link="GameObjects\FallingObject.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\GameObject.cs" Link="GameObjects\GameObject.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\HalloweenBomb.cs" Link="GameObjects\HalloweenBomb.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\Player.cs" Link="GameObjects\Player.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\Shell.cs" Link="GameObjects\Shell.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\Shield.cs" Link="GameObjects\Shield.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\Shot.cs" Link="GameObjects\Shot.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\GameObjects\Snowflake.cs" Link="GameObjects\Snowflake.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\HolidayTest.cs" Link="HolidayTest.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\Admin.cs" Link="MenuObjects\Admin.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\BoolMenuObject.cs" Link="MenuObjects\BoolMenuObject.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\Checkpoints.cs" Link="MenuObjects\Checkpoints.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\CMSMobj\Blocks.cs" Link="MenuObjects\CMSMobj\Blocks.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\CMSMobj\BoardHeight.cs" Link="MenuObjects\CMSMobj\BoardHeight.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\CMSMobj\BoardWidth.cs" Link="MenuObjects\CMSMobj\BoardWidth.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\CMSMobj\CustomModeSettings.cs" Link="MenuObjects\CMSMobj\CustomModeSettings.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\CMSMobj\CustomReturn.cs" Link="MenuObjects\CMSMobj\CustomReturn.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\CMSMobj\Tick.cs" Link="MenuObjects\CMSMobj\Tick.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\Color.cs" Link="MenuObjects\Color.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\Credits.cs" Link="MenuObjects\Credits.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\CustomModeSettingsMenuObject.cs" Link="MenuObjects\CustomModeSettingsMenuObject.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\FullScreen.cs" Link="MenuObjects\FullScreen.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\God.cs" Link="MenuObjects\God.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\IntMenuObject.cs" Link="MenuObjects\IntMenuObject.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\MenuObject.cs" Link="MenuObjects\MenuObject.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\Mode.cs" Link="MenuObjects\Mode.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\Music.cs" Link="MenuObjects\Music.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\MusicSelector.cs" Link="MenuObjects\MusicSelector.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\NewControls.cs" Link="MenuObjects\NewControls.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\Quit.cs" Link="MenuObjects\Quit.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\ResetScore.cs" Link="MenuObjects\ResetScore.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\Return.cs" Link="MenuObjects\Return.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\ScreenResX.cs" Link="MenuObjects\ScreenResX.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\ScreenResY.cs" Link="MenuObjects\ScreenResY.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\Sfx.cs" Link="MenuObjects\Sfx.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\MenuObjects\TwoPlayerMode.cs" Link="MenuObjects\TwoPlayerMode.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\ShotC.cs" Link="ShotC.cs" />
+    <Compile Include="..\..\DodgeBlockFormsPort\Write.cs" Link="Write.cs" />
+    <Compile Include="..\DodgeBlockMobile\DodgeBlockMobile\Music.cs" Link="Music.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\DodgeBlockFormsPort\Settings.txt" Link="Settings.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GameObjects\" />
+    <Folder Include="MenuObjects\CMSMobj\" />
+  </ItemGroup>
+
+</Project>

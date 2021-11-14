@@ -1,0 +1,38 @@
+﻿Classic High Score (int)
+1547
+Two Player High Score (int)
+1000
+Mute Music (bool)
+0
+Mute Sfx (bool)
+0
+God Mode (bool)
+0
+Fullscreen (bool) -OLD
+0
+TwoPlpayerMode (bool) -OLD
+0
+ScreenResX (int) -OLD
+1920
+ScreenResY (int) -OLD
+1080
+Use New Controls (bool)
+1
+Admin (bool)(0 for player1 (arrow keys))
+0
+Mode (0-3)
+0
+Normal High Score (int)
+2157
+Halloween Event High Score (int)
+2066
+File Name -NOT USED
+DodgeBlock 1.2.0.exe
+Secret Code:
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Expert High Score (int)
+1314
+(unused)
+0
+Music Selector:
+1

@@ -181,7 +181,8 @@ namespace ConsoleGame
             snowflaketimer = 0;
             HighScore = 1530;
             WriteBoard = "";
-            settingslocation = "Settings.txt";
+            if(!IsMobile)
+                settingslocation = "Settings.txt";
             if (random2.Next(0, 10) % 2 == 1)
                 PowerFliper = true;
             else PowerFliper = false;
@@ -261,7 +262,17 @@ namespace ConsoleGame
             {
                 //Android.Content.Res.AssetManager assets = App.Assets;
                 //string[] Settings = Program.form.Parent.ReadAllLines(settingslocation);
-                string[] Settings = File.ReadAllLines(settingslocation);
+                string[] Settings = { "" };
+                if (!IsMobile)
+                    Settings = File.ReadAllLines(settingslocation);
+                else //settings are stored in the location on mobile
+                {
+                    string allsettings = settingslocation;
+                    Settings = allsettings.Split(
+                        new string[] { Environment.NewLine },
+                        StringSplitOptions.None
+                    );
+                }
 
                 MuteMusic = Boolconvert(Settings[5]);
                 MuteSfx = Boolconvert(Settings[7]);
@@ -302,6 +313,7 @@ namespace ConsoleGame
             }
             catch (Exception ex)
             {
+                Program.form.TextBoxReplace(settingslocation);
                 Program.form.TextBoxWriteLine("Could not import settings from " + settingslocation + " " + ex);
                 Program.form.TextBoxWriteLine("Press any key to continue...");
                 if (!IsMobile)
@@ -350,7 +362,9 @@ namespace ConsoleGame
             {
                 //fix https error
                 ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+#pragma warning disable CS0618 // Type or member is obsolete
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | (SecurityProtocolType)(0xc0 | 0x300 | 0xc00);
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 //Get Website HTML
                 string htmlCode;

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -17,10 +17,6 @@
   <ItemGroup>
     <Compile Remove="NativeKeyboard-o.cs" />
     <Compile Remove="Program-o.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Settings.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,17 +68,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Settings.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="NativeKeyboard-o.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2244" />
   </ItemGroup>
 
   <ItemGroup>

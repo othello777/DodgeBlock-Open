@@ -13,6 +13,7 @@ namespace DodgeBlockMobile
 {
     public partial class MainPage : ContentPage
     {
+        public static string settings;
         public bool sleeped = false;
 
         #region Ported Connections
@@ -62,6 +63,11 @@ namespace DodgeBlockMobile
         }
         #endregion
 
+        public static void sendsettings(string seti)
+        {
+            DodgeBlock.settingslocation = seti; //use this to store all the ser
+        }
+
         public void CloseThis()
         {
             System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
@@ -104,6 +110,7 @@ namespace DodgeBlockMobile
             }
             ButtonsContainer.HeightRequest = 70;
             DodgeBlock.IsMobile = true;
+            
             GameThread.Start();
             Program prog = new Program(this);
 

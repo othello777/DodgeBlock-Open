@@ -8,6 +8,8 @@ using Android.Widget;
 using Android.OS;
 using DodgeBlockMobile;
 using Xamarin.Forms;
+using Android.Content.Res;
+using System.IO;
 
 namespace DodgeBlockMobile.Droid
 {
@@ -23,7 +25,18 @@ namespace DodgeBlockMobile.Droid
             base.OnCreate(savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+            // Read the contents of our asset
+            string content;
+            AssetManager assets = this.Assets;
+            using (StreamReader sr = new StreamReader(assets.Open("Settings.txt")))
+            {
+                content = sr.ReadToEnd();
+            }
+            DodgeBlockMobile.MainPage.sendsettings(content);
+            TextView tv = new TextView(this);
+            // Set TextView.Text to our asset content
+            tv.Text = content;
+            SetContentView(tv);
         }
-
     }
 }

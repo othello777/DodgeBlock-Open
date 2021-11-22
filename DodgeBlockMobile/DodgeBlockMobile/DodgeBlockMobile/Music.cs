@@ -512,7 +512,7 @@ namespace ConsoleGame
 
         static void StarWars()
         {
-            while (false)
+            /*while (false)
             {
                 Console.Beep(300, 500);
                 Thread.Sleep(50);
@@ -615,7 +615,7 @@ namespace ConsoleGame
                 Beep(349, 375);
                 Beep(261, 125);
                 Beep(440, 1000);
-            }
+            }*/
         }
 
         static void Birthday()

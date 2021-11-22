@@ -21,7 +21,7 @@ namespace ConsoleGame
 
         public static bool IsThanksgiving()
         {
-            DateTime HolidayBegin = new DateTime(2020, 11, 17);
+            DateTime HolidayBegin = new DateTime(2020, 11, 20);
             DateTime HolidayEnd = new DateTime(2020, 11, 30);
             if (DateTime.Now.Day >= HolidayBegin.Day && DateTime.Now.Month >= HolidayBegin.Month
                 && DateTime.Now.Day <= HolidayEnd.Day && DateTime.Now.Month <= HolidayEnd.Month)

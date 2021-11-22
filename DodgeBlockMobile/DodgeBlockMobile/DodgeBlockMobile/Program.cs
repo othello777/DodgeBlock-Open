@@ -82,7 +82,58 @@ namespace ConsoleGame
             rw = rw.Replace(@"\line", "\n");
             rw = rw.Replace(@"\highlight0", "");
             rw = rw.Replace(@"\fs40", "");
-            TextBoxReplace(rw);
+            string stripped = "";
+            int ignore = 0;
+            for (int i = 0; i < rw.Length; i++)
+            {
+                if ((rw + "   ").Substring(i, 3) == @"\cf")
+                {
+                    switch (rw.Substring(i, 4))
+                    {
+                        case @"\cf0":
+                            break;
+                        case @"\cf1":
+                            if (rw.Substring(i, 5) == @"\cf10")
+                            {
+                                ignore = 1;
+                            }
+                            break;
+                        case @"\cf2":
+                            break;
+                        case @"\cf3":
+                            break;
+                        case @"\cf4":
+                            break;
+                        case @"\cf5":
+                            break;
+                        case @"\cf6":
+                            break;
+                        case @"\cf7":
+                            break;
+                        case @"\cf8":
+                            break;
+                        case @"\cf9":
+                            break;
+                        default:
+                            break;
+                    }
+                    //Console.ForegroundColor = color;
+                    ignore += 3;
+                }
+                else if ((rw + "   ").Substring(i, 3) == @"\hi")
+                {
+                    ignore = 10;
+                }
+                else if (ignore > 0)
+                {
+                    ignore -= 1;
+                }
+                else
+                {
+                    stripped += rw.Substring(i, 1);
+                }
+            }
+            TextBoxReplace(stripped);
             if (Parent.IsItPortrait())
                 DodgeBlock.IsPortrait = true;
             else

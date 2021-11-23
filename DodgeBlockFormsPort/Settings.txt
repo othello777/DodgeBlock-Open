@@ -21,7 +21,7 @@ Use New Controls (bool)
 Admin (bool)(0 for player1 (arrow keys))
 0
 Mode (0-4)
-1
+2
 Normal High Score (int)
 1959
 Halloween Event High Score (int)

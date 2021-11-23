@@ -93,7 +93,7 @@ namespace ConsoleGame
                         case @"\cf0":
                             break;
                         case @"\cf1":
-                            if (rw.Substring(i, 5) == @"\cf10")
+                            if ((rw + "    ").Substring(i, 5) == @"\cf10")
                             {
                                 ignore = 1;
                             }

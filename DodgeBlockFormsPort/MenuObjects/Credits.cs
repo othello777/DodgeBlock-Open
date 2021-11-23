@@ -28,13 +28,14 @@ Update Ideas:\line
 TheKingOfDucks\line 
 Cataclysm\line 
 TheWalrus72\line 
+TacoMuncherDude\line 
 \line 
 Playtesters:\line 
 PENGUINO270\line 
 TheWalrus72\line
 \line 
 Investors:\line
-Cataclysm - $5\line
+Cataclysm - $3\line
 TheKingOfDucks - $1\line
 \line
 ");

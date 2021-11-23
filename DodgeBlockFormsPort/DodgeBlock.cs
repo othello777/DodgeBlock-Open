@@ -67,6 +67,7 @@ namespace ConsoleGame
         public static bool UseNewControls;
         public static bool AllowInternet;
         public static bool UseCheckpoints;
+        public static bool DisplayFPS;
         public static int BoardSize;
         public static int ScrResX;
         public static int ScrResY;
@@ -82,6 +83,7 @@ namespace ConsoleGame
         public static ShotC shotc = new ShotC();
         public static Bench BenchFPS = new Bench();
         public static CustomModeC customModeC;
+        public static Stopwatch tickcorrect;
         public static int Ammo;
         public static int Shields;
         public static int Mode;
@@ -132,7 +134,8 @@ namespace ConsoleGame
             }
 
 
-
+            tickcorrect = new Stopwatch();
+            tickcorrect.Start();
             Run();
 
 
@@ -181,7 +184,7 @@ namespace ConsoleGame
             snowflaketimer = 0;
             HighScore = 1530;
             WriteBoard = "";
-            if(!IsMobile)
+            if (!IsMobile)
                 settingslocation = "Settings.txt";
             if (random2.Next(0, 10) % 2 == 1)
                 PowerFliper = true;
@@ -199,6 +202,7 @@ namespace ConsoleGame
             UseNewControls = true;
             AllowInternet = false;
             UseCheckpoints = true;
+            DisplayFPS = true;
             BoardSize = 40;
             ScrResX = 1920;
             ScrResY = 1080;
@@ -262,17 +266,7 @@ namespace ConsoleGame
             {
                 //Android.Content.Res.AssetManager assets = App.Assets;
                 //string[] Settings = Program.form.Parent.ReadAllLines(settingslocation);
-                string[] Settings = { "" };
-                if (!IsMobile)
-                    Settings = File.ReadAllLines(settingslocation);
-                else //settings are stored in the location on mobile
-                {
-                    string allsettings = settingslocation;
-                    Settings = allsettings.Split(
-                        new string[] { Environment.NewLine },
-                        StringSplitOptions.None
-                    );
-                }
+                string[] Settings = write.Read();
 
                 MuteMusic = Boolconvert(Settings[5]);
                 MuteSfx = Boolconvert(Settings[7]);
@@ -464,7 +458,6 @@ namespace ConsoleGame
                 DisplayAndDelay();
 
                 DiscordDB.Update();
-                Thread.Sleep(Tick);
             }
         }
 
@@ -585,6 +578,9 @@ namespace ConsoleGame
         //Display&Delay
         public static void DisplayAndDelay()
         {
+            if(DisplayFPS)
+                Stringbuilder.Append(" Proc:" + tickcorrect.ElapsedMilliseconds + "ms");
+
             //Display
             WriteToScreen();
             Program.form.TextBoxReplaceRtf(WriteBoard);
@@ -597,6 +593,14 @@ namespace ConsoleGame
             UpdateDificultyCurve();
             if (Score > HighScore)
                 HighScore = Score;
+
+            if(tickcorrect.ElapsedMilliseconds > 20)
+                Thread.Sleep(Tick);
+            else
+                Thread.Sleep((int)(Tick - tickcorrect.ElapsedMilliseconds));
+
+
+            tickcorrect.Restart();
         }
 
         public static ConsoleColor StringBuilderSetColor
@@ -696,11 +700,11 @@ namespace ConsoleGame
             Stringbuilder.Append(@"\fs" + BoardSize);
             StringBuilderSetColor = color;
             if (Mode == 4 && customModeC.CustomModeAble)
-                Stringbuilder.Append(@"        Score:" + Score + @" \line\line "
-                   + "                     " + Math.Round(BenchFPS.DoGetFps(), 5) + "FPS");
+                Stringbuilder.Append(@"        Score:" + Score + @" \line\line ");
             else
-                Stringbuilder.Append(@"        Score:" + Score + @" \line   High Score:" + HighScore + @" \line "
-                   + "                     " + Math.Round(BenchFPS.DoGetFps(), 5) + "FPS");
+                Stringbuilder.Append(@"        Score:" + Score + @" \line   High Score:" + HighScore + @" \line ");
+            if (DisplayFPS)
+                Stringbuilder.Append("                     " + Math.Round(BenchFPS.DoGetFps(), 4) + "FPS");
         }
 
 
@@ -954,46 +958,6 @@ namespace ConsoleGame
             }
         }
 
-        //ye old code
-        public static void ChangeResolution(int ResolutionX, int ResolutionY)
-        {
-            string FileName = @"c:\qres\qres.exe";
-            string FileName2 = @"qres\qres.exe";
-            try
-            {
-                Process proc = new Process();
-
-                proc.StartInfo.FileName = FileName; // put full path in here
-                proc.StartInfo.Arguments = ("/x " + ResolutionX + " /y " + ResolutionY).ToString(); // say
-                proc.Start();
-                proc.WaitForExit();
-            }
-            catch (System.ComponentModel.Win32Exception)
-            {
-                try
-                {
-                    Process proc = new Process();
-
-                    proc.StartInfo.FileName = FileName2; // put full path in here
-                    proc.StartInfo.Arguments = ("/x " + ResolutionX + " /y " + ResolutionY).ToString(); // say
-                    proc.Start();
-                    proc.WaitForExit();
-                }
-                catch (System.ComponentModel.Win32Exception)
-                {
-
-
-                    Program.form.TextBoxWriteLine("Fullscreen Mode Error\nUnable to locate " + FileName + " or " + FileName2 +
-                        "\nPlease Specify the location of QRes.exe");
-                    Program.form.TextBoxWriteLine("Press any key to continue...");
-                    Console.Beep();
-                    Console.Beep();
-                    //Console.ReadKey();
-                    FullScreen = false;
-                }
-            }
-        }
-
         static void BlockHandling()
         {
             //=======V====Falling=Objects====V======
@@ -1040,7 +1004,7 @@ namespace ConsoleGame
 
                                     if ((GodMode == false) && (j == Position && i == 1 || TwoPlayerMode == true && j == Position2 && i == 1))
                                     {
-                                        Ammo += 3;
+                                        Ammo += 5;
                                     }
                                 }
                             }
@@ -1446,6 +1410,11 @@ namespace ConsoleGame
                 else if (Score > 500)
                     Stringbuilder.Append("Checkpoint Achieved: 500");
             }
+            if (DisplayFPS)
+            {
+                LineBreak();
+                Stringbuilder.Append("Average FPS: " + BenchFPS.GetAverageFps());
+            }
             if (IsNetcore)
             {
                 LineBreak();
@@ -1483,7 +1452,7 @@ namespace ConsoleGame
                     modeAppend = "CSTM";
                 else
                     modeAppend = "R";
-                SecretCode = Crypto.EncryptStringAES(Score.ToString() + modeAppend + "-" + Version, Crypto.sharedsecret);
+                SecretCode = Crypto.EncryptStringAES(Score.ToString() + modeAppend + "-" + Version + "@" + BenchFPS.GetAverageFps() + "FPS", Crypto.sharedsecret);
                 write.ToThisTxt(31, SecretCode);
                 Program.form.GameInitialized();
             }
@@ -1579,70 +1548,6 @@ namespace ConsoleGame
                 if ((Score >= 1000 && Score <= 1010) || (Score >= 500 && Score <= 510))
                     return true;
             return false;
-        }
-
-        //also ye old code
-        static void SettingsMenu()
-        {
-            Program.form.TextBoxReplace("");
-            music.PauseMusic();
-
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.ForegroundColor = ConsoleColor.White;
-
-            Program.form.TextBoxWriteLine(
-"###########Settings###########\n" +
-"#                            #\n" +
-"#    Right = Mute/Unmute     #\n" +
-"#    Left =  Quit & Quit     #\n" +
-"#    Up = Return to Game     #\n" +
-"#                            #\n" +
-"##############################\n");
-            int ButtonCooldown = 0;
-            bool NotReturned = true;
-
-            while (NotReturned)
-            {
-                if (NativeKeyboard.IsKeyDown(KeyCode.Left))
-                {
-                    Refresh = false;
-                    NotReturned = false;
-                    InitConsoleColors();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                }
-
-                if (NativeKeyboard.IsKeyDown(KeyCode.Right))
-                {
-                    if (MuteMusic == true && ButtonCooldown == 0)
-                    {
-                        Program.form.TextBoxWriteLine("Unmuted");
-                        MuteMusic = false;
-                        ButtonCooldown = 5;
-                    }
-                    else if (MuteMusic == false && ButtonCooldown == 0)
-                    {
-                        Program.form.TextBoxWriteLine("Muted");
-                        MuteMusic = true;
-                        ButtonCooldown = 5;
-                    }
-
-                }
-
-                if (NativeKeyboard.IsKeyDown(KeyCode.Up))
-                {
-                    NotReturned = false;
-                    InitConsoleColors();
-                }
-
-                if (ButtonCooldown > 0)
-                    ButtonCooldown = ButtonCooldown - 1;
-
-                System.Threading.Thread.Sleep(60);
-            }
-            if (MuteMusic == false)
-                music.ResumeMusic();
-            Program.form.TextBoxReplace("");
-
         }
 
         static void StartScreen()
@@ -1745,7 +1650,7 @@ namespace ConsoleGame
             {
                 try
                 {
-                    string[] Settings = File.ReadAllLines(settingslocation);
+                    string[] Settings = write.Read();
 
                     if (Mode == 0)
                     {
@@ -1775,30 +1680,16 @@ namespace ConsoleGame
                 }
                 catch (Exception ex)
                 {
-                    Program.form.TextBoxWriteLine("Could not import settings from " + settingslocation + " " + ex);
-                    Console.Beep();
-                    Console.Beep();
-                    Thread.Sleep(777);
+                    Program.form.TextBoxWriteLine("Could not import HS from " + settingslocation + " " + ex);
+
+                    if (!IsMobile)
+                    {
+                        Console.Beep();
+                        Console.Beep();
+                    }
+                    Thread.Sleep(4777);
                 }
             }
-        }
-
-        //AGAIN whats with all this elden code?
-        public static string Code(string Input)
-        {
-            char[] charArray = Input.ToCharArray();
-
-            int[] intarray = new int[charArray.Length];
-
-            for (int i = 0; i < charArray.Length; i++)
-            {
-                intarray[i] = (int)charArray[i] + 17;
-
-                charArray[i] = (char)intarray[i];
-            }
-
-            string b = new string(charArray);
-            return b;
         }
 
         public static void Cutscene()
@@ -2575,858 +2466,5 @@ namespace ConsoleGame
             }
             Program.form.ZoomTextBox(Program.form.ZoomTextBox() * 1.5f);
         }
-
-        public static bool Import()
-        {
-
-            Program.form.ZoomTextBox(Program.form.ZoomTextBox() / 1.5f);
-
-            List<List<string>> MasterAnimations = new List<List<string>>();
-            List<string> Playmation = new List<string>() {
-@"                                                  /\
-        _____                                    /* \
-       /_    \_                                 /  ^ \
-      // \_____\                               / *  o \
-     (_) {______}                             /_  - $ _\
-          ######                               / o    \
-         #      #           _ _               /_  $ * _\
-        #        #         (_V_)               / % o  \ 
-        #        #         __V__              /____ ___\
-        #        #        [  |  ]                 [ ]
-         #      #         [--+--]                 [ ]
-          ######          [  |  ]                 [ ]
--------------------------------------------------------
-",
-@"                                                  /\
-        _____                                    /* \
-       /_    \_                                 /  ^ \
-      // \_____\                               / *  o \
-     (_) {______}                             /_  - $ _\
-          ######                               / o    \
-         #      #           _ _               /_  $ * _\
-        #        #         (_V_)               / % o  \ 
-        #        #         __V__              /____ ___\
-        #        #        [  |  ]                 [ ]
-         #      #         [--+--]                 [ ]
-          ######          [  |  ]                 [ ]
--------------------------------------------------------
-",
-@"                                                 /\
-        _____                                   /* \
-       /_    \_                                /  ^ \
-      // \_____\                              / *  o \
-     (_) {______}                            /_  - $ _\
-          ######                              / o    \
-         #      #          _ _               /_  $ * _\
-        #        #        (_V_)               / % o  \ 
-        #        #        __V__              /____ ___\
-        #        #       [  |  ]                 [ ]
-         #      #        [--+--]                 [ ]
-          ######         [  |  ]                 [ ]
--------------------------------------------------------
-",
-@"                                                /\
-        _____                                  /* \
-       /_    \_                               /  ^ \
-      // \_____\                             / *  o \
-     (_) {______}                           /_  - $ _\
-          ######                             / o    \
-         #      #         _ _               /_  $ * _\
-        #        #       (_V_)               / % o  \ 
-        #        #       __V__              /____ ___\
-        #        #      [  |  ]                 [ ]
-         #      #       [--+--]                 [ ]
-          ######        [  |  ]                 [ ]
--------------------------------------------------------
-",
-@"                                               /\
-        _____                                 /* \
-       /_    \_                              /  ^ \
-      // \_____\                            / *  o \
-     (_) {______}                          /_  - $ _\
-          ######                            / o    \
-         #      #        _ _               /_  $ * _\
-        #        #      (_V_)               / % o  \ 
-        #        #      __V__              /____ ___\
-        #        #     [  |  ]                 [ ]
-         #      #      [--+--]                 [ ]
-          ######       [  |  ]                 [ ]
--------------------------------------------------------
-",
-@"                                             /\
-        _____                               /* \
-       /_    \_                            /  ^ \
-      // \_____\                          / *  o \
-     (_) {______}                        /_  ~ $ _\
-          ######                          / o    \
-         #      #       _ _              /_  $ * _\
-        #        #     (_V_)              / % o  \ 
-        #        #     __V__             /____ ___\
-        #        #    [  |  ]                [ ]
-         #      #     [--+--]                [ ]
-          ######      [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                             /\
-        _____                               /* \
-       /_    \_                            /  ^ \
-      // \_____\                          / *  o \
-     (_) {______}                        /_  ~ $ _\
-          ######                          / o    \
-         #      #       _ _              /_  $ * _\
-        #        #     (_V_)              / % o  \ 
-        #        #     __V__             /____ ___\
-        #        #    [  |  ]                [ ]
-         #      #     [--+--]                [ ]
-          ######      [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                          / o    \
-         #      #      _ _              /_  $ * _\
-        #        #    (_V_)              / % o  \ 
-        #        #    __V__             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                          / o    \
-         #      #      _ _              /_  $ * _\
-        #        #    (_V_)              / % o  \ 
-        #        #    __V__             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                          / o    \
-         #      #      _ _              /_  $ * _\
-        #        #    (_V_)              / % o  \ 
-        #        #    __V__             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                          / o    \
-         #      #      _ _              /_  $ * _\
-        #        #    (_V_)              / % o  \ 
-        #        #    __V__             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #      _                /_  $ * _\
-        #        #    (_V\_              / % o  \ 
-        #        #    __V__             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #      _                /_  $ * _\
-        #        #    {_V\_              / % o  \ 
-        #        #    __V__             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #    _/V\_              / % o  \ 
-        #        #    __V__             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #    \____             / % o  \ 
-        #        #    __V__\           /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #         ___           / % o  \ 
-        #        #    __V_    \         /____ ___\
-        #        #   [  |  ]  |             [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #           _           / % o  \ 
-        #        #    _/ _    |         /____ ___\
-        #        #   [  |  ]  \             [ ]
-         #      #    [--+--]   |            [ ]
-          ######     [  |  ]                [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #                       / % o  \ 
-        #        #    _/ _              /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]    \           [ ]
-          ######     [  |  ]     |---.      [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #                       / % o  \ 
-        #        #    _/ _              /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    __---.      [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _                    / % o  \ 
-        #        #   \   \_             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _                    / % o  \ 
-        #        #   \   |_             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _      _             / % o  \ 
-        #        #   \    |             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _      _             / % o  \ 
-        #        #   \    |             /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _   _   _            / % o  \ 
-        #        #   \ //  /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #        _              /_  $ * _\
-        #        #  _   //  _            / % o  \ 
-        #        #   \ //  /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######          _              / o    \
-         #      #        //             /_  $ * _\
-        #        #  _   //  _            / % o  \ 
-        #        #   \ //  /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######          _              / o    \
-         #      #        //             /_  $ * _\
-        #        #  _   //   _           / % o  \ 
-        #        #   \()7() /           /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_             _             /  ^ \
-      // \_____\           // _          / *  o \
-     (_) {______}     _   // (_)        /_  ~ $ _\
-          ######     (_) //              / o    \
-         #      #       //              /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                              // _          /\
-        _____            _   // (_)        /* \
-       /_    \_         (_) //            /  ^ \
-      // \_____\           //            / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                         _    //(_)         /\
-        _____           (_)  //            /* \
-       /_    \_             //            /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                              // '-'        /\
-        _____            (_) //            /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                          '-' //            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / *  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"            //                              /\
-        _____                              /* \
-       /_    \_                           /  ^ \
-      // \_____\                         / /  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"        '-' //                              /\
-        __ //                              /* \
-       /_ \--\_                           /  ^ \
-      // \_____\                         / /  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"        '-' //                              /\
-        __ //                              /* \
-       /_ \--\_                           /  ^ \
-      // \_____\                         / /  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"        (_) //                              /\
-        _  //                              /* \
-       /_\//-\_                           /  ^ \
-      // \_____\                         / /  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"        (_) //                              /\
-           //                              /* \
-       _/`//-\_                           /  ^ \
-      /,_\_____\                         / /  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"        _   // '-'                          /\
-       (_) //                              /* \
-       _/`//-\_                           /  ^ \
-      /,_//____\                         / /  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"        _   // '-'                          /\
-       (_) //                              /* \
-       __,//-._                           /  ^ \
-      /,_//____\                         / /  o \
-     (_) {______}                       /_  ~ $ _\
-          ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                _                           /\
-            // (_)                         /* \
-       _ ,,//.__                          /  ^ \
-      (_) //____\                        / /  o \
-     //  //______}                      /_  ~ $ _\
-    (_)   ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                _                           /\
-            // (_)                         /* \
-       _   // __                          /  ^ \
-      (_) //_/__\                        / /  o \
-     _|/ //______}                      /_  ~ $ _\
-    (_)   ######                         / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-               _                           /* \
-           // (_)                         /  ^ \
-          //_/__\                        / /  o \
-     _   //______}                      /_  ~ $ _\
-    (_) // ######                        / o    \
-         #      #                       /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-                                           /* \
-                _                         /  ^ \
-           //_.(_)                       / /  o \
-      _   //______}                     /_  ~ $ _\
-     (_) //=#####                       / o    \
-        //#      #                     /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-                                           /* \
-                                          /  ^ \
-           //_,_                         / /  o \
-     _    //_ (_)                       /_  ~ $ _\
-    (_)  //======                        / o    \
-        //=      #                      /_  $ * _\
-        #        #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-                                           /* \
-                                          /  ^ \
-                                         / /  o \
-     _   //_  _}                        /_  ~ $ _\
-    (_) // ##(_).                        / o    \
-       // #  \===#                      /_  $ * _\
-      // #       #  _       _            / % o  \ 
-        #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-                                           /* \
-                                          /  ^ \
-                                         / /  o \
-     _                                  /_  ~ $ _\
-    (_) //   _                           / o    \
-       // ==(_)===                      /_  $ * _\
-      // #       #  _       _            / % o  \ 
-     // #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-                                           /* \
-                                          /  ^ \
-                                         / /  o \
-     _                                  /_  ~ $ _\
-    (_) //                               / o    \
-       //   _                           /_  $ * _\
-      // ==(_)====  _       _            / % o  \ 
-     // #        #   \     /            /____ ___\
-        #        #   [  |  ]                [ ]
-         #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-                                           /* \
-                                          /  ^ \
-                                         / /  o \
-                                        /_  ~ $ _\
-                                         / o    \
-                                        /_  $ * _\
-    _   //    _     _       _            / % o  \ 
-   (_) //,===(_)===  \     /            /____ ___\
-      // #       #   [  |  ]                [ ]
-     //  #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-                                           /* \
-                                          /  ^ \
-                                         / /  o \
-                                        /_  ~ $ _\
-                                         / o    \
-                                        /_  $ * _\
-    _   //          _       _            / % o  \ 
-   (_) //    _       \     /            /____ ___\
-      // ===(_)===   [  |  ]                [ ]
-     //  #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-",
-@"                                            /\
-                                           /* \
-                                          /  ^ \
-                                         / /  o \
-                                        /_  ~ $ _\
-                                         / o    \
-                                        /_  $ * _\
-    _   //          _       _            / % o  \ 
-   (_) //    _       \     /            /____ ___\
-      // ===(_)===   [  |  ]                [ ]
-     //  #      #    [--+--]                [ ]
-          ######     [  |  ]    _____       [ ]
----------------------------------------------------------
-"};
-
-            /*string Filename = "anim.worlk";
-            int FrameID = 0;
-            MasterAnimations.Clear();
-            if (File.Exists(Filename))
-            {
-                string[] TextRead = File.ReadAllLines(Filename);
-                try
-                {
-                    if (TextRead[0] == "")
-                    {
-                        MessageBox.Show("Unable to read file " + Filename + ". \n Please use a proper .worlk file.");
-                        return false;
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Unable to read file" + Filename + ". \n Please use a proper .worlk file.");
-                    return false;
-                }
-
-
-                for (int i = 0; i < TextRead.Length; i++)
-                {
-                    if (TextRead[i].Substring(0, 1) == "%")
-                    {
-                        MainTextBox.Font =
-                            new Font(MainTextBox.Font.FontFamily, float.Parse(TextRead[i].Substring(1)));
-                    }
-
-                    if (TextRead[i].Substring(0, 1) == "*")
-                    {
-                        FrameID += 1;
-
-                        List<string> CurrentFrameLines = new List<string>();
-                        bool notreturned = true;
-                        int j = i;
-
-
-                        while (notreturned)
-                        {
-                            if (TextRead[j].Substring(0, 1) == "*" && j != i || j == TextRead.Length - 1)
-                            {
-                                notreturned = false;
-                            }
-                            if (TextRead[j].Substring(0, 1) == "&")
-                            {
-                                CurrentFrameLines.Add(TextRead[j].Substring(1));
-                            }
-
-                            j++;
-                        }
-                        MasterAnimations.Add(CurrentFrameLines);
-                    }
-                }
-
-                StringBuilder ExportBuilder = new StringBuilder();
-
-                
-                foreach (List<string> Frame in MasterAnimations)
-                {
-                    foreach (string line in Frame)
-                    {
-                        ExportBuilder.Append(line + "\n");
-                    }
-                    Playmation.Add(ExportBuilder.ToString());
-                    ExportBuilder.Clear();
-                }
-                */
-            int FrameCounter = 0;
-            bool NotSkipped = true;
-            while (NotSkipped)
-            {
-                Program.form.TextBoxReplace(Playmation[FrameCounter] +
-            "\nAnimated by The King of Ducks     Press any (arrow) key to skip");
-
-                if (FrameCounter == Playmation.Count - 1)
-                    NotSkipped = false;
-                else
-                    FrameCounter = FrameCounter + 1;
-
-                if (NativeKeyboard.IsKeyDown(KeyCode.Up) ||
-                    NativeKeyboard.IsKeyDown(KeyCode.Down) ||
-                    NativeKeyboard.IsKeyDown(KeyCode.Left) ||
-                    NativeKeyboard.IsKeyDown(KeyCode.Right))
-                {
-                    NotSkipped = false;
-                }
-                Thread.Sleep(400);
-            }
-            Program.form.ZoomTextBox(Program.form.ZoomTextBox() * 1.5f);
-
-            return true;
-            /*}
-            else
-            {
-                DialogResult result = MessageBox.Show("Unable to find default animation file " + Filename,
-                    "Worlk error");
-                return false;
-            }*/
-
-        }
-
     }
 }

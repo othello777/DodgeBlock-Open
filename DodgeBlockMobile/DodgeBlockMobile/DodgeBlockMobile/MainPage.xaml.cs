@@ -13,7 +13,6 @@ namespace DodgeBlockMobile
 {
     public partial class MainPage : ContentPage
     {
-        public static string settings;
         public bool sleeped = false;
 
         #region Ported Connections
@@ -63,11 +62,6 @@ namespace DodgeBlockMobile
         }
         #endregion
 
-        public static void sendsettings(string seti)
-        {
-            DodgeBlock.settingslocation = seti; //use this to store all the ser
-        }
-
         public void CloseThis()
         {
             System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
@@ -108,9 +102,9 @@ namespace DodgeBlockMobile
                 // You're on a tablet
                 Label1.FontSize = 30;
             }
-            ButtonsContainer.HeightRequest = 70;
+            ButtonsContainer.HeightRequest = 700;
             DodgeBlock.IsMobile = true;
-            
+            //SetLabel1Text = ReadAllLines("Settings.txt")[0];
             GameThread.Start();
             Program prog = new Program(this);
 
@@ -122,7 +116,7 @@ namespace DodgeBlockMobile
             void closeApplication();
         }
 
-        public string[] ReadAllLines(string filename)
+        public static string[] ReadAllLines(string filename)
         {
             string content;
             string[] cards = new string[] { "" }; //created a empty string array
@@ -137,6 +131,18 @@ namespace DodgeBlockMobile
             return cards;
         }
 
+        public static void WriteAllLines(string filename, string[] input)
+        {
+            /*AssetManager assets = Android.App.Application.Context.Assets;
+            using (StreamWriter sr = new StreamWriter(assets.Open("Settings.txt")))
+            {
+                sr.Write(input);
+            }*/
+            string path = Android.App.Application.Context.FilesDir.Path + "Settings.txt";
 
+
+            File.WriteAllLines(path, input);
+
+        }
     }
 }

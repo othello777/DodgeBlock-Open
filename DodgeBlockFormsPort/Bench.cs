@@ -12,12 +12,15 @@ namespace ConsoleGame
         long _frameCount = 0;
         int wait = 0;
         double fps = 0;
+        List<double> frames = new List<double>();
 
+        // called every tick. automatically calls GetFps every once in a while
         public double DoGetFps()
         {
             if (wait > 10)
             {
                 fps = GetFps();
+                frames.Add(fps);
                 wait = 0;
             }
             else
@@ -39,6 +42,17 @@ namespace ConsoleGame
             double fps = count / secondsElapsed;
             _lastCheckTime = DateTime.Now;
             return fps;
+        }
+
+        //gets the average of all records
+        public double GetAverageFps()
+        {
+            double sum = 0;
+            foreach (var frame in frames)
+            {
+                sum += frame;
+            }
+            return Math.Round(sum / frames.Count, 4);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace DodgeBlockMobile.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
             // Read the contents of our asset
-            string content;
+            /*string content;
             AssetManager assets = this.Assets;
             using (StreamReader sr = new StreamReader(assets.Open("Settings.txt")))
             {
@@ -36,7 +36,7 @@ namespace DodgeBlockMobile.Droid
             TextView tv = new TextView(this);
             // Set TextView.Text to our asset content
             tv.Text = content;
-            SetContentView(tv);
+            SetContentView(tv);*/
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,22 @@ namespace othello7Library
         /// </summary>
         public string DestinationFile { get; set; }
 
+        public string[] Read()
+        {
+            return Read(DestinationFile);
+        }
+
+        public string[] Read(string Destination)
+        {
+            /*string[] Settings = { "" };
+            string allsettings = "";
+            Settings = allsettings.Split(
+                new string[] { Environment.NewLine },
+                StringSplitOptions.None
+            );*/
+            return DodgeBlockMobile.MainPage.ReadAllLines(Destination);
+        }
+
         /// <summary>
         ///Writes to a line on (string) DestinationFile.
         ///
@@ -34,7 +51,7 @@ namespace othello7Library
         {
             try
             {
-                string[] Content = System.IO.File.ReadAllLines(DestinationFile);
+                string[] Content = Read(DestinationFile);
 
 
                 try
@@ -46,7 +63,7 @@ namespace othello7Library
                     //MessageBox.Show("System.IndexOutOfRangeException in Write.ToThisTxt");
                 }
 
-                System.IO.File.WriteAllLines(DestinationFile, Content);
+                DodgeBlockMobile.MainPage.WriteAllLines("", Content);//String.Join("\n", Content));
             }
             catch (Exception)
             {

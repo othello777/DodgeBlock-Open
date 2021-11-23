@@ -88,6 +88,10 @@ namespace ConsoleGame
                             break;
                         case @"\cf1":
                             color = ConsoleColor.White;
+                            if ((rw + "    ").Substring(i, 5) == @"\cf10")
+                            {
+                                ignore = 1;
+                            }
                             break;
                         case @"\cf2":
                             color = ConsoleColor.Green;
@@ -121,7 +125,7 @@ namespace ConsoleGame
                             break;
                     }
                     Console.ForegroundColor = color;
-                    ignore = 3;
+                    ignore += 3;
                 }
                 else if ((rw + "   ").Substring(i, 3) == @"\hi")
                 {

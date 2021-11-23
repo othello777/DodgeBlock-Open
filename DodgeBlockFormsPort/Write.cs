@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 //using System.Windows.Forms;
@@ -23,6 +24,16 @@ namespace othello7Library
         ///File to write to
         /// </summary>
         public string DestinationFile { get; set; }
+
+        public string[] Read()
+        {
+            return Read(DestinationFile);
+        }
+
+        public string[] Read(string Destination)
+        {
+            return File.ReadAllLines(Destination);
+        }
 
         /// <summary>
         ///Writes to a line on (string) DestinationFile.

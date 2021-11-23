@@ -118,17 +118,23 @@ namespace DodgeBlockMobile
 
         public static string[] ReadAllLines(string filename)
         {
-            string content;
-            string[] cards = new string[] { "" }; //created a empty string array
-            AssetManager assets = Android.App.Application.Context.Assets;
-            using (StreamReader sr = new StreamReader(assets.Open("Settings.txt")))
+            string path = Android.App.Application.Context.FilesDir.Path + "/Settings.txt";
+            if (!File.Exists(path))
             {
-                content = sr.ReadToEnd();
+                string content;
+                string[] cards = new string[] { "" }; //created a empty string array
+                AssetManager assets = Android.App.Application.Context.Assets;
+                using (StreamReader sr = new StreamReader(assets.Open("Settings.txt")))
+                {
+                    content = sr.ReadToEnd();
+                }
+
+                cards = content.Split('\n');
+
+                File.WriteAllLines(path, cards);
             }
 
-            cards = content.Split('\n');
-
-            return cards;
+            return File.ReadAllLines(path);
         }
 
         public static void WriteAllLines(string filename, string[] input)
@@ -138,8 +144,7 @@ namespace DodgeBlockMobile
             {
                 sr.Write(input);
             }*/
-            string path = Android.App.Application.Context.FilesDir.Path + "Settings.txt";
-
+            string path = Android.App.Application.Context.FilesDir.Path + "/Settings.txt";
 
             File.WriteAllLines(path, input);
 

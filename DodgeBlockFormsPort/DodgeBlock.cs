@@ -704,7 +704,13 @@ namespace ConsoleGame
             else
                 Stringbuilder.Append(@"        Score:" + Score + @" \line   High Score:" + HighScore + @" \line ");
             if (DisplayFPS)
-                Stringbuilder.Append("                     " + Math.Round(BenchFPS.DoGetFps(), 4) + "FPS");
+            {
+                if(IsMobile && IsPortrait)
+                    Stringbuilder.Append("  " + Math.Round(BenchFPS.DoGetFps(), 4) + "FPS");
+                else
+                    Stringbuilder.Append("                     " + Math.Round(BenchFPS.DoGetFps(), 4) + "FPS");
+            }
+                
         }
 
 
@@ -1571,7 +1577,7 @@ namespace ConsoleGame
                 "#.\\..A../.@@@@@@@@@@@@.\\..A../.#\n" +
                 "#..|||||...Halloween!...|||||..#\n" +
                 "################################\n" +
-                "\n       (c) othello7 2020");
+                "\n     © othello7 2019-2021");
                 }
                 else if (IsThanksgiving)
                 {
@@ -1584,7 +1590,7 @@ namespace ConsoleGame
                @"#...`. \\\:\:/:/ o_),..........#" + "\n" +
                @"#.....`->>> 8888 >; (_)o.......#" + "\n" +
                 "################################\n" +
-                "\n       (c) othello7 2020");
+                "\n     © othello7 2019-2021");
 
                 }
                 else if (IsChristmas)
@@ -1597,7 +1603,7 @@ namespace ConsoleGame
                 @"#.[--+--].@@@@@@@@@@@@//// \\\\#" + "\n" +
                 @"#.[  |  ]................| |...#" + "\n" +
                 @"################################" + "\n" +
-                "\n       (c) othello7 2020");
+                "\n     © othello7 2019-2021");
                 }
                 else
                 {

@@ -49,8 +49,8 @@ namespace othello7Library
         ///<param name = "lineNumber" > The line number (starting on 0) to write to.</param>
         public void ToThisTxt(int lineNumber, string value)
         {
-            try
-            {
+            /*try
+            {*/
                 string[] Content = Read(DestinationFile);
 
 
@@ -64,11 +64,11 @@ namespace othello7Library
                 }
 
                 DodgeBlockMobile.MainPage.WriteAllLines("", Content);//String.Join("\n", Content));
-            }
+            /*}
             catch (Exception)
             {
                 //MessageBox.Show("Write.ToThisTxt " + ex);
-            }
+            }*/
         }
     }
 }

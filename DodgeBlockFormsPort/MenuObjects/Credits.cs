@@ -29,6 +29,7 @@ TheKingOfDucks\line
 Cataclysm\line 
 TheWalrus72\line 
 TacoMuncherDude\line 
+Fraylak\line
 \line 
 Playtesters:\line 
 PENGUINO270\line 

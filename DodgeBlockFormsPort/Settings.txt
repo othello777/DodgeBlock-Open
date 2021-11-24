@@ -38,5 +38,5 @@ Music Selector:
 0
 Enable Checkpoints:
 1
-(extra line)
+Display FPS:
 0

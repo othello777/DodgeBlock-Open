@@ -14,8 +14,8 @@ namespace ConsoleGame.MenuObjects
         private static int ButtonCooldown = 0;
 
         private static MenuObject[] Menus = { new Return(), new Quit(), new Music(), new Sfx(),
-            new Mode(), new CustomModeSettingsMenuObject(), new MusicSelector(), new NewControls(),
-            new FullScreen(), new God(), new Admin(), new Checkpoints(), new ResetScore(), new Credits()};
+            new Mode(), new MusicSelector(), new FullScreen(), new CustomModeSettingsMenuObject(), new NewControls(),
+            new Checkpoints(), new God(), new Admin(), new FPS(), new ResetScore(), new Credits()};
 
 
         public static void SettingsMenu()

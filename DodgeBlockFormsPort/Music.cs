@@ -19,6 +19,7 @@ namespace ConsoleGame
         public static Thread thBetterMario = new Thread(BetterMario);
         public static Thread thMissionImpossible = new Thread(MissionImpossible);
         public static Thread thAltStarWars = new Thread(AltStarWars);
+        public static Thread thDrMario = new Thread(DrMario);
         public static Thread thGarble = new Thread(Garble);
         public int Select;
 
@@ -32,6 +33,7 @@ namespace ConsoleGame
                 thBetterMario,
                 thMissionImpossible,
                 thAltStarWars,
+                thDrMario,
                 thGarble
 };
 
@@ -873,6 +875,460 @@ namespace ConsoleGame
             while(true)
             {
                 Console.Beep(randomSounds.Next(1000) + 100, 200);
+            }
+        }
+
+        static void DrMario()
+        {
+            Random randomSounds = new Random(DateTime.Now.Second);
+            //for (int index = 0; index < 100; index++)
+            while (true)
+            {
+                //Intro in G
+                Beep(196, 200);
+                Beep(196, 200);
+                Beep(233, 200);
+                Beep(247, 200);
+                Beep(262, 200);
+                Beep(247, 200);
+                Beep(233, 200);
+                Beep(220, 200);
+
+                Beep(196, 200);
+                Beep(196, 200);
+                Beep(233, 200);
+                Beep(247, 200);
+                Beep(262, 200);
+                Beep(247, 200);
+                Beep(233, 200);
+                Beep(220, 200);
+
+                //Main in G);
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+
+                Sleep(200);
+                Beep(784, 100);
+                Sleep(300);
+
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+
+                //Rise);
+                Beep(123, 100);
+                Beep(123, 100);
+                Beep(123, 200);
+                Beep(131, 100);
+                Beep(131, 100);
+                Beep(131, 200);
+                Beep(139, 100);
+                Beep(139, 100);
+                Beep(139, 200);
+                Beep(147, 100);
+                Beep(147, 100);
+                Beep(147, 200);
+
+                //Main in G (pause));
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+
+                Sleep(600);
+
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(466, 100);
+                Sleep(100);
+                Beep(494, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(392, 100);
+                Sleep(100);
+                Beep(440, 100);
+                Sleep(100);
+
+                //e);
+                Beep(1245, 50);
+                Beep(831, 25);
+                Sleep(75);
+                //150);
+                Beep(831, 50);
+                Beep(587, 25);
+                Sleep(75);
+                //300);
+                Beep(659, 75);
+                Sleep(50);
+                Beep(494, 25);
+                Beep(622, 125);
+                Sleep(100);
+                Beep(262, 25);
+                //700);
+                Sleep(75);
+                Beep(831, 50);
+                Beep(440, 25);
+                Sleep(50);
+                //900);
+                Beep(131, 25);
+                Beep(1175, 25);
+                Sleep(175);
+                Beep(1245, 25);
+                Beep(311, 100);
+                Sleep(25);
+                Beep(659, 25);
+                Beep(277, 75);
+                Beep(220, 25);
+                Sleep(100);
+                Beep(185, 25);
+                Sleep(75);
+                Beep(220, 100);
+                Sleep(100);
+                Beep(311, 25);
+                Sleep(50);
+                Beep(277, 25);
+                Sleep(50);
+                Beep(247, 25);
+                Sleep(50);
+                Beep(220, 25);
+                Sleep(50);
+                Beep(233, 25);
+                Sleep(50);
+                Beep(196, 25);
+                Sleep(200);
+
+                //Main in C);
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+
+                Sleep(600);
+
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(220, 100);
+                Sleep(100);
+                Beep(185, 100);
+                Sleep(100);
+                Beep(220, 100);
+                Sleep(100);
+                Beep(247, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(300);
+                Beep(247, 100);
+                Sleep(300);
+
+                //bwong);
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(300);
+                Beep(175, 400);
+
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(300);
+                Beep(185, 400);
+
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(220, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(300);
+                Beep(294, 100);
+                Sleep(300);
+                Beep(262, 100);
+                Sleep(300);
+
+                Beep(131, 200);
+                Sleep(200);
+
+                //Interlude);
+                Beep(165, 800);
+                Beep(147, 400);
+                Beep(196, 400);
+                Beep(131, 1200);
+                Sleep(400);
+                Beep(220, 800);
+                Beep(196, 400);
+                Beep(262, 400);
+                Beep(175, 1200);
+                Sleep(400);
+                Beep(165, 800);
+                Beep(147, 400);
+                Beep(196, 400);
+                Beep(131, 1200);
+                Sleep(400);
+                Beep(220, 800);
+                Beep(196, 400);
+                Beep(247, 400);
+                Beep(262, 1200);
+                Sleep(400);
+
+                //bwong);
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(300);
+                Beep(175, 400);
+
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(300);
+                Beep(185, 400);
+
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(311, 100);
+                Sleep(100);
+                Beep(330, 100);
+                Sleep(100);
+                Beep(294, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(100);
+                Beep(220, 100);
+                Sleep(100);
+                Beep(262, 100);
+                Sleep(300);
+                Beep(294, 100);
+                Sleep(300);
+                Beep(262, 100);
+                Sleep(300);
+
+                Beep(131, 300);
+                Sleep(100);
+
+                //Intro in C);
+                Beep(131, 200);
+                Beep(131, 200);
+                Beep(156, 200);
+                Beep(165, 200);
+                Beep(175, 200);
+                Beep(175, 200);
+                Beep(185, 200);
+                Beep(196, 200);
+
+                Beep(131, 200);
+                Beep(131, 200);
+                Beep(156, 200);
+                Beep(165, 200);
+                Beep(175, 200);
+                Beep(175, 200);
+                Beep(185, 200);
+                Beep(196, 200);
+
+                Beep(131, 200);
+                Beep(131, 200);
+                Beep(156, 200);
+                Beep(165, 200);
+                Beep(175, 200);
+                Beep(175, 200);
+                Beep(185, 200);
+                Beep(196, 200);
+
+                Beep(311, 200);
+                Beep(294, 200);
+                Beep(277, 200);
+                Beep(262, 200);
+                Beep(247, 200);
+                Beep(233, 200);
+                Beep(220, 200);
+                Beep(208, 200);
+
+                Beep(131, 200);
+                Beep(131, 200);
+                Beep(156, 200);
+                Beep(165, 200);
+                Beep(175, 200);
+                Beep(175, 200);
+                Beep(185, 200);
+                Beep(196, 200);
+
+                Beep(131, 200);
+                Beep(131, 200);
+                Beep(156, 200);
+                Beep(165, 200);
+                Beep(175, 200);
+                Beep(175, 200);
+                Beep(185, 200);
+                Beep(196, 200);
+
+                Beep(131, 200);
+                Beep(131, 200);
+                Beep(156, 200);
+                Beep(165, 200);
+                Beep(175, 200);
+                Beep(175, 200);
+                Beep(185, 200);
+                Beep(196, 200);
+
+
+                Beep(311, 200);
+                Beep(294, 200);
+                Beep(277, 200);
+                Beep(262, 200);
+                Beep(247, 200);
+                Beep(233, 200);
+                Beep(220, 200);
+                Beep(208, 200);
+                Beep(196, 200);
+                Beep(185, 200);
+                Sleep(1200);
+                Beep(196, 200);
+                Beep(185, 200);
+                Sleep(1200);
+                Beep(196, 200);
+                Beep(185, 200);
+                Sleep(1200);
+                Beep(208, 200);
+                Sleep(1400);
+
             }
         }
     }

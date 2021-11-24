@@ -41,7 +41,7 @@ namespace ConsoleGame
         public static KeyCode JustPressedKey = KeyCode.None;
         public static string WriteBoard;
         public const string Title = "DodgeBlock " + Version;
-        public const string Version = "1.5.2 - 0C";
+        public const string Version = "1.6.0";
         public static int MaxMode = 4;
         public static string settingslocation;
         public static string SecretCode = "You have not died yet.";
@@ -281,6 +281,7 @@ namespace ConsoleGame
                 customModeC.Tick = Convert.ToInt32(Settings[29]);
                 MusicSelector = Convert.ToInt32(Settings[37]);
                 UseCheckpoints = Boolconvert(Settings[39]);
+                DisplayFPS = Boolconvert(Settings[41]);
 
                 music.init();
                 customModeC.SettingsChanged();

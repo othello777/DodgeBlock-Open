@@ -58,6 +58,8 @@ namespace DodgeBlockFormsPort.MenuObjects
             else if (ProgramValue == 7)
                 Value = "Vader Theme - I don't remember where I got this one. Sorry.";
             else if (ProgramValue == 8)
+                Value = "DrMario - othello7 - dodgeblock.cf";
+            else if (ProgramValue == 9)
                 Value = "Garble - Computer Generated - Your Computer!";
 
         }

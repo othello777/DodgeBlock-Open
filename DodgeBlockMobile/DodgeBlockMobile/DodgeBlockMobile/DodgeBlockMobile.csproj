@@ -46,8 +46,6 @@
     <Compile Include="..\..\..\DodgeBlockFormsPort\MenuObjects\CMSMobj\CustomModeSettings.cs" Link="MenuObjects\CMSMobj\CustomModeSettings.cs" />
     <Compile Include="..\..\..\DodgeBlockFormsPort\MenuObjects\CMSMobj\CustomReturn.cs" Link="MenuObjects\CMSMobj\CustomReturn.cs" />
     <Compile Include="..\..\..\DodgeBlockFormsPort\MenuObjects\CMSMobj\Tick.cs" Link="MenuObjects\CMSMobj\Tick.cs" />
-    <Compile Include="..\..\..\DodgeBlockFormsPort\MenuObjects\Color.cs" Link="MenuObjects\Color.cs" />
-    <Compile Include="..\..\..\DodgeBlockFormsPort\MenuObjects\Credits.cs" Link="MenuObjects\Credits.cs" />
     <Compile Include="..\..\..\DodgeBlockFormsPort\MenuObjects\CustomModeSettingsMenuObject.cs" Link="MenuObjects\CustomModeSettingsMenuObject.cs" />
     <Compile Include="..\..\..\DodgeBlockFormsPort\MenuObjects\FullScreen.cs" Link="MenuObjects\FullScreen.cs" />
     <Compile Include="..\..\..\DodgeBlockFormsPort\MenuObjects\God.cs" Link="MenuObjects\God.cs" />

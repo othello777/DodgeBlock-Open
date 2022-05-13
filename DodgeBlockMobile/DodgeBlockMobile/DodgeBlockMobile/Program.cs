@@ -15,6 +15,7 @@ using ConsoleGame;
 using othello7Library;
 using DodgeBlockFormsPort;
 using DodgeBlockMobile;
+using Xamarin.Forms;
 
 namespace ConsoleGame
 {
@@ -83,12 +84,73 @@ namespace ConsoleGame
             rw = rw.Replace(@"\highlight0", "");
             rw = rw.Replace(@"\fs40", "");
             string stripped = "";
+            bool tagopen = false;
+            FormattedString formattedString = new FormattedString();
+            Xamarin.Forms.Color NextColor = Xamarin.Forms.Color.White;
+
             int ignore = 0;
             for (int i = 0; i < rw.Length; i++)
             {
                 if ((rw + "   ").Substring(i, 3) == @"\cf")
                 {
-                    switch (rw.Substring(i, 4))
+                    void setcolor(int r, int g, int b)
+                    { 
+                        //var span = new Span { Text = "default, " };
+                        
+
+                        if (tagopen)
+                        {
+                            formattedString.Spans.Add(new Span { Text = stripped, ForegroundColor = NextColor});
+                            stripped = "";
+                        }
+                        //stripped += ("<strong style=\"color:red\">");
+                        NextColor = new Xamarin.Forms.Color(r, g, b);
+                        tagopen = true;
+                    }
+
+                    switch (rw.Substring(i+3, 1))
+                    {
+                        case "0":
+                            setcolor(0, 0, 0);
+                            break;
+                        case "1":
+                            if ((rw + "    ").Substring(i, 5) == @"\cf10")
+                            {
+                                ignore = 1;
+                                break;
+                            }
+                            setcolor(0xFF, 0xFF, 0xFF);
+                            break;
+                        case "2":
+                            setcolor(0, 255, 0);
+                            break;
+                        case "3":
+                            setcolor(255, 255, 0);
+                            break;
+                        case "4":
+                            setcolor(255, 0, 255);
+                            break;
+                        case "5":
+                            setcolor(255, 0, 0);
+                            break;
+                        case "6":
+                            setcolor(0, 0, 255);
+                            break;
+                        case "7":
+                            setcolor(0, 255, 255);
+                            break;
+                        case "8":
+                            setcolor(255, 120, 0);
+                            break;
+                        case "9":
+                            setcolor(0, 100, 0);
+                            break;
+                        default:
+                            //startofline = true;
+                            break;
+                    }
+
+                    /*switch (rw.Substring(i, 4))
                     {
                         case @"\cf0":
                             break;
@@ -116,7 +178,7 @@ namespace ConsoleGame
                             break;
                         default:
                             break;
-                    }
+                    }*/
                     //Console.ForegroundColor = color;
                     ignore += 3;
                 }
@@ -133,13 +195,16 @@ namespace ConsoleGame
                     stripped += rw.Substring(i, 1);
                 }
             }
-            TextBoxReplace(stripped);
+            if (tagopen)
+                formattedString.Spans.Add(new Span { Text = stripped, ForegroundColor = NextColor });
+            
+            //TextBoxReplace(stripped);
             if (Parent.IsItPortrait())
                 DodgeBlock.IsPortrait = true;
             else
                 DodgeBlock.IsPortrait = false;
-            /*
-            string start = @"{\rtf1\ansi\deff0
+
+            /*string start = @"{\rtf1\ansi\deff0
 {\colortbl;
 \red255\green255\blue255;
 \red0\green255\blue0;
@@ -151,16 +216,17 @@ namespace ConsoleGame
 \red255\green120\blue0;
 \red0\green100\blue0;
 \red224\green158\blue80;
-}" + Board + "}";
+}" + Board + "}";*/
 
-            Invoke(new Action(() =>
+            /*Invoke(new Action(() =>
             {
                 try
                 {
                     Form1_ResizeEnd(null, EventArgs.Empty);
-
-                    ConsoleRrichTextBox.Rtf = start;
-                }
+*/
+            Parent.SetLabel1FormattedText = formattedString;
+            //ConsoleRrichTextBox.Text = stripped;
+                /*}
                 catch (NullReferenceException)
                 {
 

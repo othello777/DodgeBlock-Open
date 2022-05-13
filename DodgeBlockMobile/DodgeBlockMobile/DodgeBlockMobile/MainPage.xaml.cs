@@ -78,11 +78,29 @@ namespace DodgeBlockMobile
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    Label1.Text = value;
+                    Label1.Text = value;// = formattedString;//"<strong style=\"color:red\">this is red right?</strong>";
                 });
                 
             }
         }
+
+        private FormattedString myStringProperty2;
+        public FormattedString SetLabel1FormattedText
+        {
+            get { return myStringProperty2; }
+            set
+            {
+                myStringProperty2 = value;
+                OnPropertyChanged(nameof(SetLabel1FormattedText)); // Notify that there was a change on this property
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Label1.FormattedText = value;// = formattedString;//"<strong style=\"color:red\">this is red right?</strong>";
+                });
+
+            }
+        }
+
         public Thread GameThread = new Thread(DodgeBlock.Game);
 
         public MainPage()
@@ -91,6 +109,7 @@ namespace DodgeBlockMobile
             SetLabel1Text = "init";
             BackgroundColor = Color.Black;
             Label1.TextColor = Color.White;
+            //Label1.TextType = TextType.Html;
             if (Device.Idiom == TargetIdiom.Phone)
             {
                 // You're on a phone
